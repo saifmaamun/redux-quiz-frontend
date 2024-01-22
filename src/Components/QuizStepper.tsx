@@ -1,27 +1,33 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Stepper, Step } from "@material-tailwind/react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setActiveStep } from "../redux/features/stepper/stepperSlice";
 
-export function QuizStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
+type TStepperProps = {
+  steps: {
+    value: number;
+    name: string;
+    component: ReactNode;
+  }[];
+};
 
+export function QuizStepper({ steps }: TStepperProps) {
+  const { activeStep } = useAppSelector((state) => state.stepper);
+  const dispatch = useAppDispatch();
   return (
     <div className="w-full py-4 px-8">
       <Stepper placeholder={""} activeStep={activeStep}>
-        <Step
-          placeholder={""}
-          onClick={() => setActiveStep(0)}
-          className="px-8 w-fit"
-        >
-          Quiz List
-        </Step>
-        <Step
-          placeholder={""}
-          onClick={() => setActiveStep(1)}
-          className="px-8 w-fit"
-        >
-          Add Quiz
-        </Step>
+        {steps.map((step) => (
+          <Step
+            placeholder={""}
+            onClick={() => dispatch(setActiveStep(step.value))}
+            className="px-8 w-fit"
+          >
+            {step.name}
+          </Step>
+        ))}
       </Stepper>
+      <div>{steps[activeStep].component}</div>
       <div className="mt-16 flex justify-between"></div>
     </div>
   );

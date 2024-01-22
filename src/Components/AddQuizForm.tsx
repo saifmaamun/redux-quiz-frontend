@@ -2,7 +2,7 @@ import { Button, Card, Input, Typography } from "@material-tailwind/react";
 
 export function AddQuizForm() {
   return (
-    <Card placeholder={""} color="transparent" shadow={false}>
+    <Card className="my-4" placeholder={""} color="transparent" shadow={false}>
       <Typography placeholder={""} variant="h4" color="blue-gray">
         Add Quiz
       </Typography>
