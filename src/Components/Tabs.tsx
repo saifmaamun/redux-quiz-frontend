@@ -8,6 +8,8 @@ import {
 } from "@material-tailwind/react";
 import { Square3Stack3DIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { QuizCard } from "./QuizCard";
+import { AddQuizForm } from "./AddQuizForm";
+import { QuizStepper } from "./QuizStepper";
 
 export function TabsWithIcon() {
   const data = [
@@ -21,7 +23,7 @@ export function TabsWithIcon() {
       label: "Add Quiz",
       value: "add-quiz",
       icon: UserCircleIcon,
-      desc: <QuizCard>Add Quiz</QuizCard>,
+      desc: <QuizStepper />,
     },
   ];
   return (
