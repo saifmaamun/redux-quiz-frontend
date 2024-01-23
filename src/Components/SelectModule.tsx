@@ -1,8 +1,15 @@
 import { Select, Option, Spinner } from "@material-tailwind/react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
 import { setActiveStep } from "../redux/features/stepper/stepperSlice";
-import { useGetAllModulesQuery } from "../redux/api/baseApi";
+
 import { setSelectedModule } from "../redux/features/module/moduleSlice";
+import {
+  ReactElement,
+  JSXElementConstructor,
+  ReactNode,
+  ReactPortal,
+} from "react";
+import { useGetAllModulesQuery } from "../redux/features/module/moduleApi";
 
 export function SelectModule() {
   const dispatch = useAppDispatch();
@@ -23,7 +30,7 @@ export function SelectModule() {
         className=""
         onChange={(value) => {
           const moduleTitle = modules.data.find(
-            (module) => module._id === value
+            (module: { _id: string | undefined }) => module._id === value
           ).title;
           dispatch(
             setSelectedModule({
@@ -36,9 +43,22 @@ export function SelectModule() {
         placeholder={""}
         label="Select Moule"
       >
-        {modules?.data.map((module) => (
-          <Option value={module._id}>{module.title}</Option>
-        ))}
+        {modules?.data.map(
+          (module: {
+            _id: string | undefined;
+            title:
+              | string
+              | number
+              | boolean
+              | ReactElement<unknown, string | JSXElementConstructor<unknown>>
+              | Iterable<ReactNode>
+              | ReactPortal
+              | null
+              | undefined;
+          }) => (
+            <Option value={module._id}>{module.title}</Option>
+          )
+        )}
       </Select>
     </div>
   );
