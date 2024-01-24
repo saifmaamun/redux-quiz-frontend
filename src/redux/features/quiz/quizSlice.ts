@@ -8,10 +8,12 @@ type TQuiz ={
     description:string,
     options:string[],
     correctOption:string,
+    
 }
 
 type TInitialState={
-    quiz:TQuiz[]
+    quiz:TQuiz[],
+    currentQuestionIndex:number,
 }
 type TAction={
     payload:TQuiz,
@@ -19,7 +21,8 @@ type TAction={
 
 
 const initialState:TInitialState={
-quiz:[]
+quiz:[],
+currentQuestionIndex:0,
 }
 
 const quizSlice=createSlice({
@@ -28,9 +31,12 @@ const quizSlice=createSlice({
     reducers:{
         addQuiz:(state,action:TAction)=>{
             state.quiz.push(action.payload);
+        },
+        setCurrentQuestionIndex:(state,action)=>{
+            state.currentQuestionIndex = action.payload
         }
     }
 })
 
-export const {addQuiz}=quizSlice.actions;
+export const {addQuiz,setCurrentQuestionIndex}=quizSlice.actions;
 export default quizSlice.reducer;

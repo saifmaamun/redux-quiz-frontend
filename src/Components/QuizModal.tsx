@@ -2,7 +2,10 @@ import React from "react";
 import { Button, Dialog, DialogBody, Spinner } from "@material-tailwind/react";
 import { useGetAllQuizByModuleIdQuery } from "../redux/features/quiz/quizApi";
 
-export function QuizModal({ moduleId }) {
+import { useAppSelector } from "../redux/hooks";
+
+export function QuizModal({ moduleId }: any) {
+  const { currentQuestionIndex } = useAppSelector((state) => state.quiz);
   const { data: quizes, isLoading } = useGetAllQuizByModuleIdQuery(moduleId);
   console.log(quizes);
   const [open, setOpen] = React.useState(false);
@@ -23,12 +26,15 @@ export function QuizModal({ moduleId }) {
       </Button>
       <Dialog placeholder={""} open={open} handler={handleOpen}>
         <DialogBody placeholder={""}>
-          {quizes?.data?.map((quiz) => (
-            <div className="flex justify-between">
-              <p>{quiz.question}</p>
-              <p>{quiz.description}</p>
-            </div>
-          ))}
+          {quizes?.data?.map(
+            (quiz: any, index: number) =>
+              currentQuestionIndex === index && (
+                <div className="flex justify-between">
+                  <p>{quiz.question}</p>
+                  <p>{quiz.description}</p>
+                </div>
+              )
+          )}
         </DialogBody>
       </Dialog>
     </>
